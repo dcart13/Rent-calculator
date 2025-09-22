@@ -1,0 +1,1 @@
+Building a calculator and website to help people understand changes to rent in Switzerland, generally intended to help calculate updated rent following updates to the referenzzinssatz and/or the inflation index.
