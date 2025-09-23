@@ -1,87 +1,47 @@
-<style>
-  /* Navigation bar */
-  .top-nav {
-    background: #007BFF;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-    font-size: 16px;
-  }
-  .top-nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  .top-nav a:hover {
-    text-decoration: underline;
-  }
-</style>
-
-<div class="top-nav">
-  <a href="/index.html">Calculator</a> |
-  <a href="/privacy.html">Privacy Policy</a> |
-  <a href="/terms.html">Terms of Service</a>
-</div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Swiss Rent Reduction Calculator (40% inflation influence)</title>
-  <meta name="description" content="Swiss rent reduction calculator with 40% inflation adjustment. Calculate your rent change based on reference interest rate and inflation index.">
-  <script>
-    function calculateRent() {
-      // Get input values
-      let currentRent = parseFloat(document.getElementById("currentRent").value);
-      let oldRate = parseFloat(document.getElementById("oldRate").value);
-      let newRate = parseFloat(document.getElementById("newRate").value);
-      let oldIndex = parseFloat(document.getElementById("oldIndex").value);
-      let newIndex = parseFloat(document.getElementById("newIndex").value);
-
-      if (isNaN(currentRent) || isNaN(oldRate) || isNaN(newRate) || isNaN(oldIndex) || isNaN(newIndex)) {
-        alert("Please fill in all fields correctly.");
-        return;
-      }
-
-      // Step 1: Reference rate adjustment
-      // Reduction: 2.91% for each 0.25 percentage point drop in the reference rate
-      let rateDiffSteps = (oldRate - newRate) / 0.25;
-      let rateChangePercent = rateDiffSteps * 2.91 / 100; // decimal (e.g., 0.0291)
-      let rentAfterRate = currentRent * (1 - rateChangePercent);
-
-      // Step 2: Inflation adjustment — only 40% of the index change is applied to rent
-      let inflationPercentRaw = (newIndex - oldIndex) / oldIndex; // raw inflation (decimal)
-      let inflationInfluence = 0.40; // apply 40% of the inflation change
-      let inflationPercentApplied = inflationPercentRaw * inflationInfluence;
-      let finalRent = rentAfterRate * (1 + inflationPercentApplied);
-
-      // Net change
-      let netChangePercent = ((finalRent / currentRent) - 1) * 100;
-
-      // Display results with breakdown
-      document.getElementById("result").innerHTML = `
-        <strong>New Rent:</strong> CHF ${finalRent.toFixed(2)}<br>
-        <strong>Net Change:</strong> ${netChangePercent.toFixed(2)}%<br><br>
-        <em>Breakdown:</em><br>
-        Reference rate effect: ${(rateChangePercent * 100).toFixed(2)}% (reduction)<br>
-        Inflation index change: ${(inflationPercentRaw * 100).toFixed(3)}% (raw)<br>
-        Inflation influence applied: ${(inflationPercentApplied * 100).toFixed(3)}% (40% of raw)
-      `;
-    }
-  </script>
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
+      padding: 0;
+      margin: 0;
       background: #f5f5f5;
+      color: #333;
+      line-height: 1.6;
     }
+
+    /* Top Navigation */
+    .top-nav {
+      background: #007BFF;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .top-nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .top-nav a:hover {
+      text-decoration: underline;
+    }
+
+    /* Calculator */
     .calculator {
       background: white;
       padding: 20px;
       border-radius: 12px;
       max-width: 420px;
-      margin: auto;
+      margin: 40px auto;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     input {
@@ -118,38 +78,138 @@
       color: #555;
       margin-top: 8px;
     }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      margin: 40px 0 20px 0;
+      font-size: 0.9em;
+    }
+
+    /* Cookie Banner */
+    #cookie-banner {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      background: #333;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      z-index: 1000;
+    }
+    #cookie-banner button {
+      margin-left: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      background: #007BFF;
+      color: white;
+      cursor: pointer;
+    }
+    #cookie-banner a {
+      color: #FFD700;
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
+
+  <!-- Top Navigation -->
+  <div class="top-nav">
+    <a href="/index.html">Calculator</a> |
+    <a href="/privacy.html">Privacy Policy</a> |
+    <a href="/terms.html">Terms of Service</a>
+  </div>
+
+  <!-- Cookie Consent Banner -->
+  <div id="cookie-banner">
+    This website uses cookies for advertising. Read our 
+    <a href="/privacy.html">Privacy Policy</a>.
+    <button onclick="acceptCookies()">Accept</button>
+  </div>
+
+  <!-- Calculator -->
   <div class="calculator">
     <h2>Swiss Rent Reduction Calculator</h2>
-    <label>Current Rent (CHF):</label>
+    <label for="currentRent">Current Rent (CHF):</label>
     <input type="number" id="currentRent" placeholder="e.g., 2000">
 
-    <label>Old Reference Rate (%):</label>
+    <label for="oldRate">Old Reference Rate (%):</label>
     <input type="number" step="0.01" id="oldRate" placeholder="e.g., 1.50">
 
-    <label>New Reference Rate (%):</label>
+    <label for="newRate">New Reference Rate (%):</label>
     <input type="number" step="0.01" id="newRate" placeholder="e.g., 1.25">
 
-    <label>Old Inflation Index (base):</label>
+    <label for="oldIndex">Old Inflation Index (base):</label>
     <input type="number" step="0.01" id="oldIndex" placeholder="e.g., 106.9">
 
-    <label>New Inflation Index (current):</label>
+    <label for="newIndex">New Inflation Index (current):</label>
     <input type="number" step="0.01" id="newIndex" placeholder="e.g., 107.7">
 
     <button onclick="calculateRent()">Calculate</button>
+
     <div id="result"></div>
+
     <div class="note">
-  <strong>Disclaimer:</strong> This calculator is provided for informational purposes only. 
-  Results are estimates and may not reflect the exact rent adjustment you are entitled to. 
-  Always confirm calculations with official sources or legal advice before taking action.
-</div>
-  <footer style="text-align: center; margin-top: 30px; font-size: 0.9em;">
-  <a href="/privacy.html">Privacy Policy</a>
-<div id="cookie-banner" style="position:fixed;bottom:0;width:100%;background:#333;color:white;text-align:center;padding:10px;display:none;">
-  This site uses cookies for advertising. <button onclick="acceptCookies()">Accept</button>
-</div>
+      <strong>Disclaimer:</strong> This calculator is for informational purposes only. Results are estimates and may not reflect your exact rent adjustment. Always verify calculations with official sources or seek professional advice.
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <a href="/privacy.html">Privacy Policy</a> | 
+    <a href="/terms.html">Terms of Service</a>
   </footer>
+
+  <!-- Scripts -->
+  <script>
+    function calculateRent() {
+      let currentRent = parseFloat(document.getElementById("currentRent").value);
+      let oldRate = parseFloat(document.getElementById("oldRate").value);
+      let newRate = parseFloat(document.getElementById("newRate").value);
+      let oldIndex = parseFloat(document.getElementById("oldIndex").value);
+      let newIndex = parseFloat(document.getElementById("newIndex").value);
+
+      if (isNaN(currentRent) || isNaN(oldRate) || isNaN(newRate) || isNaN(oldIndex) || isNaN(newIndex)) {
+        alert("Please fill in all fields correctly.");
+        return;
+      }
+
+      // Reference rate adjustment
+      let rateDiffSteps = (oldRate - newRate) / 0.25;
+      let rateChangePercent = rateDiffSteps * 2.91 / 100;
+      let rentAfterRate = currentRent * (1 - rateChangePercent);
+
+      // Inflation adjustment (40% applied)
+      let inflationPercentRaw = (newIndex - oldIndex) / oldIndex;
+      let inflationInfluence = 0.40;
+      let inflationPercentApplied = inflationPercentRaw * inflationInfluence;
+      let finalRent = rentAfterRate * (1 + inflationPercentApplied);
+
+      let netChangePercent = ((finalRent / currentRent) - 1) * 100;
+
+      document.getElementById("result").innerHTML = `
+        <strong>New Rent:</strong> CHF ${finalRent.toFixed(2)}<br>
+        <strong>Net Change:</strong> ${netChangePercent.toFixed(2)}%<br><br>
+        <em>Breakdown:</em><br>
+        Reference rate effect: ${(rateChangePercent * 100).toFixed(2)}% (reduction)<br>
+        Inflation index change: ${(inflationPercentRaw * 100).toFixed(3)}% (raw)<br>
+        Inflation influence applied: ${(inflationPercentApplied * 100).toFixed(3)}% (40% of raw)
+      `;
+    }
+
+    // Cookie consent functions
+    window.onload = function() {
+      if (!localStorage.getItem('cookiesAccepted')) {
+        document.getElementById('cookie-banner').style.display = 'block';
+      }
+    }
+
+    function acceptCookies() {
+      localStorage.setItem('cookiesAccepted', 'true');
+      document.getElementById('cookie-banner').style.display = 'none';
+    }
+  </script>
 </body>
 </html>
