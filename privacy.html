@@ -1,28 +1,3 @@
-<style>
-  /* Navigation bar */
-  .top-nav {
-    background: #007BFF;
-    color: white;
-    padding: 10px 0;
-    text-align: center;
-    font-size: 16px;
-  }
-  .top-nav a {
-    color: white;
-    margin: 0 15px;
-    text-decoration: none;
-    font-weight: bold;
-  }
-  .top-nav a:hover {
-    text-decoration: underline;
-  }
-</style>
-
-<div class="top-nav">
-  <a href="/index.html">Calculator</a> |
-  <a href="/privacy.html">Privacy Policy</a> |
-  <a href="/terms.html">Terms of Service</a>
-</div>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,72 +7,95 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      padding: 20px;
+      padding: 0;
+      margin: 0;
       background: #f5f5f5;
       color: #333;
       line-height: 1.6;
     }
+
+    /* Top Navigation */
+    .top-nav {
+      background: #007BFF;
+      color: white;
+      padding: 10px 0;
+      text-align: center;
+      font-size: 16px;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .top-nav a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .top-nav a:hover {
+      text-decoration: underline;
+    }
+
     .container {
       max-width: 800px;
-      margin: auto;
+      margin: 40px auto;
       background: white;
       padding: 20px;
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+
     h1, h2 {
       color: #007BFF;
     }
+
     footer {
       text-align: center;
-      margin-top: 30px;
+      margin: 40px 0 20px 0;
       font-size: 0.9em;
     }
   </style>
 </head>
 <body>
+
+  <!-- Top Navigation -->
+  <div class="top-nav">
+    <a href="/index.html">Calculator</a> |
+    <a href="/privacy.html">Privacy Policy</a> |
+    <a href="/terms.html">Terms of Service</a>
+  </div>
+
+  <!-- Privacy Content -->
   <div class="container">
     <h1>Privacy Policy</h1>
     <p>
-      This website does not collect any personally identifiable information from users directly. 
-      No user accounts are required, and no personal data is stored by this website.
+      This website does not collect any personally identifiable information from users directly. No user accounts are required, and no personal data is stored by this website.
     </p>
 
     <h2>Third-Party Services</h2>
     <p>
-      This site displays advertisements provided by third-party ad networks, such as Google AdSense. 
-      These networks may use cookies or similar tracking technologies to serve relevant ads and 
-      measure ad performance. Data collection and usage are governed by the privacy policies 
-      of these third-party services.
+      This site displays advertisements provided by third-party ad networks, such as Google AdSense. These networks may use cookies or similar tracking technologies to serve relevant ads and measure ad performance. Data collection and usage are governed by the privacy policies of these third-party services.
     </p>
     <p>
-      You can learn how Google uses cookies for advertising 
-      <a href="https://policies.google.com/technologies/ads" target="_blank">here</a>.
+      You can learn how Google uses cookies for advertising <a href="https://policies.google.com/technologies/ads" target="_blank">here</a>.
     </p>
 
     <h2>Your Choices</h2>
     <p>
-      You can control or disable cookies through your browser settings. 
-      For more information on managing cookies, please refer to your browser's help documentation.
+      You can control or disable cookies through your browser settings. For more information on managing cookies, please refer to your browser's help documentation.
     </p>
 
     <h2>Disclaimer</h2>
     <p>
-      The rent reduction calculator provided on this site is for informational purposes only. 
-      The calculations are based on publicly available data and general assumptions that may not 
-      reflect your exact circumstances. 
+      The rent reduction calculator provided on this site is for informational purposes only. The calculations are based on publicly available data and general assumptions that may not reflect your exact circumstances.
     </p>
     <p>
-      While we strive for accuracy, we make no guarantees regarding the correctness or applicability 
-      of the results. Users should not rely solely on this calculator to make legal or financial decisions. 
-      Please verify calculations with official government sources or seek professional legal or financial 
-      advice before taking any action.
+      While we strive for accuracy, we make no guarantees regarding the correctness or applicability of the results. Users should not rely solely on this calculator to make legal or financial decisions. Please verify calculations with official government sources or seek professional legal or financial advice before taking any action.
     </p>
   </div>
 
   <footer>
-    <a href="/privacy.html">Privacy Policy</a>
+    <a href="/privacy.html">Privacy Policy</a> | 
+    <a href="/terms.html">Terms of Service</a>
   </footer>
 </body>
 </html>
-
